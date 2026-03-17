@@ -4,6 +4,8 @@ import Auth from "./components/auth"
 import Landing from "./components/landing"
 import Login from "./components/login"
 import Register from "./components/register"
+import Dashboard from "./components/dashboard"
+import DashboardProvider from "./contexts/dashboard-context"
 
 import { routes } from "./constants/routes"
 
@@ -32,7 +34,11 @@ const router = createBrowserRouter([
   },
   {
     path: routes.dashboard,
-    element: <Landing />,
+    element: (
+      <DashboardProvider>
+        <Dashboard />
+      </DashboardProvider>
+    ),
   },
 ])
 

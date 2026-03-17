@@ -23,11 +23,11 @@ public class VeiculoController {
     @GetMapping()
     public List<VeiculoOptionResponse> findAll() {
         return veiculoRepository.findAll().stream()
-            .map(veiculo -> new VeiculoOptionResponse(
-                veiculo.getId(),
-                veiculo.getPlaca(),
-                veiculo.getModelo()
-            ))
-            .toList();
+                .map(veiculo -> new VeiculoOptionResponse(
+                        veiculo.getId(),
+                        veiculo.getPlaca(),
+                        veiculo.getModelo(),
+                        veiculo.getTipo().name()))
+                .toList();
     }
 }
