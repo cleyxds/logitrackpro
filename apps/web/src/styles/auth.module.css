@@ -1,0 +1,249 @@
+.page {
+  width: 100%;
+  min-height: 100dvh;
+  padding: 40px;
+  background:
+    radial-gradient(circle at top right, rgba(29, 104, 81, 0.16), transparent 26%),
+    linear-gradient(180deg, #f5f1e8 0%, #edf3ed 100%);
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
+  gap: 24px;
+  padding: 28px;
+  border: 1px solid rgba(34, 49, 39, 0.1);
+  border-radius: 32px;
+  background: rgba(255, 252, 246, 0.82);
+  box-shadow: 0 18px 45px rgba(45, 68, 53, 0.08);
+}
+
+.copy,
+.content,
+.formPanel {
+  border-radius: 24px;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 252, 246, 0.96),
+    rgba(241, 244, 239, 0.96)
+  );
+}
+
+.eyebrow,
+.cardTag {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(29, 104, 81, 0.1);
+  color: #1d6851;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title,
+.cardTitle {
+  color: #142019;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.08;
+}
+
+.title {
+  font-size: clamp(2.4rem, 4vw, 4.2rem);
+  max-width: 11ch;
+}
+
+.description,
+.cardText {
+  color: #425347;
+  line-height: 1.6;
+}
+
+.backLink {
+  width: fit-content;
+  color: #1d6851;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tabs {
+  display: inline-flex;
+  gap: 10px;
+  width: fit-content;
+  padding: 8px;
+  border-radius: 999px;
+  background: rgba(23, 51, 41, 0.08);
+}
+
+.tabLink,
+.tabLinkActive {
+  padding: 12px 18px;
+  border-radius: 999px;
+  color: #173329;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.tabLink:hover,
+.tabLinkActive:hover {
+  transform: translateY(-1px);
+}
+
+.tabLinkActive {
+  background: #173329;
+  color: #f5f1e8;
+}
+
+.formPanel {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid rgba(34, 49, 39, 0.1);
+  background: #173329;
+  box-shadow: 0 18px 45px rgba(45, 68, 53, 0.08);
+}
+
+.cardTag {
+  margin-bottom: 8px;
+}
+
+.cardTitle,
+.cardText,
+.fieldLabel {
+  color: #f5f1e8;
+}
+
+.cardText {
+  margin-top: 10px;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.fieldLabel {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f1e8;
+}
+
+.input::placeholder {
+  color: rgba(245, 241, 232, 0.58);
+}
+
+.formFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.helperText {
+  color: rgba(245, 241, 232, 0.74);
+  line-height: 1.5;
+}
+
+.primaryButton,
+.secondaryButton {
+  width: fit-content;
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primaryButton {
+  background: #f5f1e8;
+  color: #173329;
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f5f1e8;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 1024px) {
+  .panel {
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .title {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 18px;
+  }
+
+  .panel,
+  .copy,
+  .formPanel {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .tabs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tabLink,
+  .tabLinkActive {
+    text-align: center;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+  .formFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

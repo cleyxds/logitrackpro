@@ -1,0 +1,186 @@
+.page {
+  width: 100%;
+  padding: 48px;
+  background:
+    radial-gradient(circle at top left, rgba(25, 122, 95, 0.18), transparent 28%),
+    linear-gradient(180deg, #f5f1e8 0%, #f8f7f2 45%, #eef3ee 100%);
+  color: #223127;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.95fr);
+  gap: 32px;
+  align-items: stretch;
+}
+
+.heroCopy,
+.heroPanel,
+.heroCopy {
+  border: 1px solid rgba(34, 49, 39, 0.1);
+  border-radius: 28px;
+  box-shadow: 0 18px 45px rgba(45, 68, 53, 0.08);
+}
+
+.heroCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px;
+  background: rgba(255, 252, 246, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.eyebrow,
+.metricLabel,
+.infoTitle {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(29, 104, 81, 0.1);
+  color: #1d6851;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.title,
+.metricValue {
+  color: #142019;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.05;
+}
+
+.title {
+  font-size: clamp(2.7rem, 5vw, 4.8rem);
+  max-width: 11ch;
+}
+
+.description,
+.metricText,
+.infoText {
+  color: #425347;
+  line-height: 1.6;
+}
+
+.description {
+  max-width: 60ch;
+  font-size: 1.05rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.primaryAction {
+  padding: 14px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #1d6851;
+  color: #f7f4ed;
+  box-shadow: 0 14px 30px rgba(29, 104, 81, 0.24);
+}
+
+.primaryAction:hover {
+  transform: translateY(-2px);
+}
+
+.heroPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+  background: linear-gradient(180deg, #173329 0%, #1c4336 100%);
+}
+
+.metricCard,
+.infoCard {
+  border-radius: 22px;
+}
+
+.metricCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px;
+  background: linear-gradient(
+    135deg,
+    rgba(245, 241, 232, 0.96),
+    rgba(230, 239, 231, 0.92)
+  );
+}
+
+.metricValue {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.infoText {
+  color: rgba(244, 243, 238, 0.88);
+  font-size: 0.94rem;
+}
+
+@media (max-width: 1024px) {
+  .page {
+    padding: 28px;
+  }
+
+  .hero,
+  .metricGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 18px;
+  }
+
+  .heroCopy,
+  .heroPanel {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .primaryAction {
+    text-align: center;
+  }
+}
