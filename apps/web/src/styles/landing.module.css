@@ -11,6 +11,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.95fr);
   gap: 32px;
+  height: 100%;
+  place-content: center;
   align-items: stretch;
 }
 

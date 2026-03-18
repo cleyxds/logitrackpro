@@ -1,7 +1,10 @@
 .page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 100dvh;
-  padding: 40px;
+  padding: 0px 20px;
   background:
     radial-gradient(circle at top right, rgba(29, 104, 81, 0.16), transparent 26%),
     linear-gradient(180deg, #f5f1e8 0%, #edf3ed 100%);
@@ -153,7 +156,6 @@
 }
 
 .input {
-  width: 100%;
   padding: 14px 16px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 16px;
