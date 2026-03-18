@@ -1,7 +1,7 @@
 package com.cleyxds.logitrackpro.controller;
 
 import com.cleyxds.logitrackpro.dto.VeiculoOptionResponse;
-import com.cleyxds.logitrackpro.repository.VeiculoRepository;
+import com.cleyxds.logitrackpro.service.VeiculoService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,20 +14,14 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class VeiculoController {
 
-    private final VeiculoRepository veiculoRepository;
+    private final VeiculoService veiculoService;
 
-    public VeiculoController(VeiculoRepository veiculoRepository) {
-        this.veiculoRepository = veiculoRepository;
+    public VeiculoController(VeiculoService veiculoService) {
+        this.veiculoService = veiculoService;
     }
 
     @GetMapping()
     public List<VeiculoOptionResponse> findAll() {
-        return veiculoRepository.findAll().stream()
-                .map(veiculo -> new VeiculoOptionResponse(
-                        veiculo.getId(),
-                        veiculo.getPlaca(),
-                        veiculo.getModelo(),
-                        veiculo.getTipo().name()))
-                .toList();
+        return veiculoService.findAll();
     }
 }

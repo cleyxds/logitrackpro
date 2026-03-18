@@ -5,6 +5,9 @@ import com.cleyxds.logitrackpro.dto.AuthResponse;
 import com.cleyxds.logitrackpro.dto.LoginRequest;
 import com.cleyxds.logitrackpro.dto.RegisterRequest;
 import com.cleyxds.logitrackpro.dto.UsuarioResponse;
+import com.cleyxds.logitrackpro.exception.AuthException;
+import com.cleyxds.logitrackpro.exception.BadRequestException;
+import com.cleyxds.logitrackpro.exception.ResourceNotFoundException;
 import com.cleyxds.logitrackpro.repository.UsuarioRepository;
 import com.cleyxds.logitrackpro.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +23,10 @@ public class AuthService {
 
   public AuthResponse login(LoginRequest request) {
     Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
     if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
-      throw new RuntimeException("Senha inválida");
+      throw new AuthException("Senha inválida");
     }
 
     String token = jwtTokenProvider.generateToken(usuario);
@@ -38,7 +41,7 @@ public class AuthService {
 
   public AuthResponse register(RegisterRequest request) {
     if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
-      throw new RuntimeException("Email já cadastrado");
+      throw new BadRequestException("Email já cadastrado");
     }
 
     Usuario usuario = Usuario.builder()
@@ -60,12 +63,12 @@ public class AuthService {
 
   public AuthResponse refresh(String refreshToken) {
     if (!jwtTokenProvider.validateToken(refreshToken)) {
-      throw new RuntimeException("Refresh token inválido ou expirado");
+      throw new AuthException("Refresh token inválido ou expirado");
     }
 
     String username = jwtTokenProvider.extractUsername(refreshToken);
     Usuario usuario = usuarioRepository.findByEmail(username)
-        .orElseThrow(() -> new RuntimeException("Usuário não encontrado para refresh"));
+        .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para refresh"));
 
     String token = jwtTokenProvider.generateToken(usuario);
     String newRefresh = jwtTokenProvider.generateRefreshToken(usuario);

@@ -1,26 +1,27 @@
 package com.cleyxds.logitrackpro.filter;
 
-import com.cleyxds.logitrackpro.domain.Usuario;
-import com.cleyxds.logitrackpro.repository.UsuarioRepository;
 import com.cleyxds.logitrackpro.util.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtTokenProvider jwtTokenProvider;
-  private final UsuarioRepository usuarioRepository;
+  private final UserDetailsService userDetailsService;
+
+  public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, UserDetailsService userDetailsService) {
+    this.jwtTokenProvider = jwtTokenProvider;
+    this.userDetailsService = userDetailsService;
+  }
 
   @Override
   protected void doFilterInternal(
@@ -31,13 +32,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     if (token != null && jwtTokenProvider.validateToken(token)) {
       String username = jwtTokenProvider.extractUsername(token);
-      Usuario usuario = usuarioRepository.findByEmail(username).orElse(null);
+      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-      if (usuario != null) {
+      if (userDetails != null) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-            usuario,
+            userDetails,
             null,
-            usuario.getAuthorities());
+            userDetails.getAuthorities());
         authentication.setDetails(
             new WebAuthenticationDetailsSource().buildDetails(request));
 

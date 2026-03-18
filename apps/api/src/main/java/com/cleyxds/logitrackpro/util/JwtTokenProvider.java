@@ -26,9 +26,9 @@ public class JwtTokenProvider {
   public String generateToken(UserDetails userDetails) {
     return Jwts
         .builder()
-        .setSubject(userDetails.getUsername())
-        .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+        .subject(userDetails.getUsername())
+        .issuedAt(new Date())
+        .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
         .signWith(getSigningKey())
         .compact();
   }
@@ -38,9 +38,9 @@ public class JwtTokenProvider {
 
     return Jwts
         .builder()
-        .setSubject(userDetails.getUsername())
-        .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + refreshExp))
+        .subject(userDetails.getUsername())
+        .issuedAt(new Date())
+        .expiration(new Date(System.currentTimeMillis() + refreshExp))
         .signWith(getSigningKey())
         .compact();
   }
