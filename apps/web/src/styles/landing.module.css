@@ -40,7 +40,7 @@
   width: fit-content;
   padding: 8px 12px;
   border-radius: 999px;
-  background: rgba(29, 104, 81, 0.1);
+  background: rgba(29, 104, 81, 0.2);
   color: #1d6851;
   font-size: 0.76rem;
   font-weight: 700;
@@ -133,7 +133,7 @@
 
 .metricGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
