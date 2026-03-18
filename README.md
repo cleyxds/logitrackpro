@@ -4,44 +4,118 @@
 
 LogiTrack Pro é uma aplicação Web onde visa resolver o problema de gerenciamento de veículos e frota da empresa **LogiTrack**, centralizando informações e fornecendo inteligência de dados para os gestores.
 
-## Appendix
+# Appendix
 
-Estrutura do repositório (monorepo)
+O repositório se trata de um monorepo utilizando o [TurboRepo](https://turborepo.dev/), seguindo o desafio o módulo escolhido foi:
 
-- Root: arquivos de configuração e orquestração (`compose.yaml`, `turbo.json`, etc.).
-- `apps/api`: aplicação backend Spring Boot (Java 21, Gradle). Expõe a API REST (`/api/**`) e contém a lógica de domínio, repositórios JPA e configuração de segurança JWT (opcional, porém decidi implementar).
-- `apps/web`: aplicação frontend (React + Vite + TypeScript). UI, rotas, chamadas para a API via `VITE_API_URL`.
-- `packages/*`: configurações e pacotes compartilhados (ESLint, presets TypeScript, utilitários). Comumente utilizado para compartilhar packages e códigos entre os projetos do monorepo.
-- `envs/`: exemplos e overrides de variáveis de ambiente por ambiente (dev/prod).
+- Opção 1: Módulo de Viagens
 
-Como rodar (dev)
+Para o Front-End, optei por uma interface web moderna, utilizando React + [Vite](https://vite.dev/) **(SPA)**
 
-- Backend:
-  - Copie/ajuste `.env` em `apps/api` (ou use `spring.config.import`): configure `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, etc.
-  - Executar: (na pasta `apps/api`)
-    ```bash
-    ./gradlew bootRun
-    ```
-- Frontend:
-  - Ajuste `VITE_API_URL` em `.env` (ou use o proxy em `vite.config.ts`).
-  - Executar: (na pasta `apps/web`)
-    ```bash
-    npm install
-    npm run dev
-    ```
+## 1. Tecnologias e arquitetura
 
-Variáveis de ambiente importantes
+- Monorepo com TurboRepo.
+- Backend: Spring Boot 4, Java 21, Gradle, Spring Security (JWT), Spring Data JPA.
+- Frontend: React 19, Vite, TypeScript, React Query.
+- Banco de dados: PostgreSQL 16.3.
+- Orquestracao de containers: Docker Compose.
 
-- Database: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`
-- Auth: `JWT_SECRET`, `JWT_EXPIRATION_MS`
-- Frontend: `VITE_API_URL`
+##### Estrutura principal:
 
-Observações:
+- apps/api: API REST e regras de negócio.
+- apps/web: interface web moderna.
+- envs: variaveis de ambiente usadas pelo Compose.
+- compose.yaml: sobe os serviços **postgres**, **api** e **web**.
 
-- O módulo de autenticação foi implementado de forma minimalista (JWT + refresh tokens em localStorage).
+## 2. Pre-requisitos
 
-## Author
+- Docker e Docker Compose instalados.
 
-- [Cleyson Barbosa](https://www.github.com/cleyxds)
+###### Para execucao sem Docker:
 
-![Logo](https://raw.githubusercontent.com/cleyxds/cleyxds/refs/heads/main/profile.gif)
+- Java 21
+- Node.js 20+
+
+## 3. Configuração de ambiente
+
+### Passo a passo
+
+Utilize os `.env.*.example` para se basear e copiar os arquivos de env para seu respectivo projeto
+
+##### Os serviços no Compose usam os arquivos da pasta `envs/`:
+
+- envs/.env.postgres
+- envs/.env.api
+- envs/.env.web (para build, é necessário que o mesmo `.env` esteja presente em apps/web)
+
+##### **Valores importantes:**
+
+- API -> DB_URL deve apontar para o serviço do banco no Compose:
+  - DB_URL=jdbc:postgresql://postgresql:5432/logitrackpro
+  - Para as credenciais login de admin padrão funcionarem é necessário utilizar o valor de `JWT_SECRET=vJLqYKPKYfzT7Oz2LjYzBg5rSjIj/cmv6K3rnSihVSA=`
+- Web -> VITE_API_URL para acesso da UI no navegador:
+  - VITE_API_URL=http://localhost:8080
+
+## 4. Como rodar localmente com Docker (recomendado)
+
+Na raiz do projeto (/):
+
+```bash
+docker compose up --build -d
+```
+
+Endpoints:
+
+- Web: http://localhost:3000
+  - Credenciais de acesso:
+    - Email: `admin@logitrack.com` (verificar [Valores importantes](#valores-importantes))
+    - Senha: `password`
+- API: http://localhost:8080
+- Postgres: localhost:5432
+
+Para desligar os serviços:
+
+```bash
+docker compose stop
+```
+
+## 5. Execução sem Docker (opcional)
+
+API:
+
+```bash
+cd apps/api
+./gradlew bootRun
+```
+
+Web:
+
+```bash
+cd apps/web
+yarn install
+yarn dev
+```
+
+## 6. Decisões técnicas
+
+- Como o script inicial `Desafio LogAp TRE - Carga Inicial.sql` foi escrito na sintaxe do **PostgreSQL**, optei por usar o mesmo banco de dados.
+- Spring Boot + JPA para acelerar o CRUD (Módulo de Viagens), validacões e persistência.
+- Para o Dashboard, foi feita uma implementação separada na camada de repositório com SQL bruto (JDBC), evitando carga desnecessária de entidades e melhorando o tempo de resposta das consultas.
+- JWT para autenticação stateless na API.
+- React Query para cache e sincronização de dados no frontend, servindo assim como o backend sendo o Single Source of Truth (SSOT).
+- Docker multi-stage para imagens menores, cache de etapas e build mais previsivel.
+
+## 7. Banco de dados e scripts
+
+- Banco padrão: PostgreSQL 16.3.
+- Seed inicial da aplicação: `apps/api/src/main/resources/data.sql`
+- Script fornecido no desafio: `Desafio LogAp TRE - Carga Inicial.sql`
+
+Sobre alterações de banco:
+
+- Não foi criado um novo script SQL de estrutura separado.
+- A justificativa foi manter simplicidade para desenvolvimento rápido.
+
+## 8. Autor
+
+- **Cleyson Barbosa**
