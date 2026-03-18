@@ -9,8 +9,37 @@ services:
       - envs/.env.postgres
     networks:
       - logitrackpro
+    restart: unless-stopped
     volumes:
       - postgresql-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - envs/.env.api
+    restart: unless-stopped
+    networks:
+      - logitrackpro
+    depends_on:
+      - postgresql
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    env_file:
+      - envs/.env.web
+    restart: unless-stopped
+    networks:
+      - logitrackpro
+    depends_on:
+      - api
 
 volumes:
   postgresql-data:
