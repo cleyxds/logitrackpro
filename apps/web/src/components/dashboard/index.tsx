@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom"
 import { useDashboard } from "../../hooks/use-dashboard"
+import { useAuth } from "../../hooks/use-auth"
+import { routes } from "../../constants/routes"
 
 import MetricCard from "./metric-card"
 import Panel from "./panel"
@@ -8,6 +11,8 @@ import { formatCurrency, formatDate, formatKm } from "../../utils/dashboard-util
 import styles from "./dashboard.module.css"
 
 export default function Dashboard() {
+  const navigate = useNavigate()
+  const { logout, user } = useAuth()
   const {
     selectedVehicleId,
     setSelectedVehicleId,
@@ -16,6 +21,13 @@ export default function Dashboard() {
     isError,
     dashboard,
   } = useDashboard()
+
+  const handleLogout = async () =>
+    await logout.mutateAsync(undefined, {
+      onSettled: () => {
+        navigate(routes["landing-page"])
+      },
+    })
 
   if (isPending) {
     return (
@@ -47,6 +59,30 @@ export default function Dashboard() {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "2rem",
+          }}
+        >
+          <h2>Bem-vindo(a), {user?.nome || "Usuário"}!</h2>
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: "0.625rem 1rem",
+              backgroundColor: "var(--accent, #e74c3c)",
+              color: "white",
+              border: "none",
+              borderRadius: "0.25rem",
+              cursor: "pointer",
+              fontSize: "0.875rem",
+            }}
+          >
+            {logout.isPending ? "Saindo..." : "Sair"}
+          </button>
+        </div>
         <section className={styles.hero}>
           <article className={styles.heroCard}>
             <span className={styles.eyebrow}>Painel operacional</span>

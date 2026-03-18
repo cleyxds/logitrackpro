@@ -1,11 +1,19 @@
-import { Link, NavLink, Outlet } from "react-router-dom"
+import { Link, Navigate, NavLink, Outlet } from "react-router-dom"
 
-import { routes } from "../constants/routes"
+import { useAuth } from "../../hooks/use-auth"
 
-import commonStyles from "../styles/common.module.css"
-import authStyles from "../styles/auth.module.css"
+import { routes } from "../../constants/routes"
+
+import commonStyles from "../../styles/common.module.css"
+import authStyles from "../../styles/auth.module.css"
 
 export default function Auth() {
+  const { isAuthenticated } = useAuth()
+
+  if (isAuthenticated) {
+    return <Navigate replace to={routes.dashboard} />
+  }
+
   return (
     <main className={commonStyles.container}>
       <section className={authStyles.page}>
@@ -17,7 +25,7 @@ export default function Auth() {
 
             <p className={authStyles.description}>
               Escolha como deseja acessar a plataforma e continue para o fluxo de
-              autenticacao.
+              autenticação.
             </p>
 
             <Link className={authStyles.backLink} to={routes["landing-page"]}>

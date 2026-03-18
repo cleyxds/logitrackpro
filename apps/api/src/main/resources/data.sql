@@ -1,3 +1,9 @@
+-- Inserindo Usuarios de Teste
+INSERT INTO usuario (email, senha, nome)
+VALUES 
+  ('admin@logitrack.com', '$2a$12$kMO7qjRAdpBFs45vqpS3sOhuPN3qdpEK7XdmJtJZZlX5Kbk6T7mSW', 'Administrador')
+ON CONFLICT DO NOTHING;
+
 INSERT INTO veiculos (placa, modelo, tipo, ano)
 VALUES
   ('ABC-1234', 'Fiorino', 'LEVE', 2022),

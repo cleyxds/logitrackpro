@@ -1,5 +1,27 @@
 type VehicleType = "LEVE" | "PESADO"
 
+type User = {
+  id: number
+  email: string
+  nome: string
+}
+
+type AuthResponse = {
+  access_token: string
+  user: User
+}
+
+type LoginRequest = {
+  email: string
+  password: string
+}
+
+type RegisterRequest = {
+  email: string
+  password: string
+  nome: string
+}
+
 type Vehicle = {
   id: number
   placa: string

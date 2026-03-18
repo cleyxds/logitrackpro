@@ -1,11 +1,13 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 
 import Auth from "./components/auth"
+import Login from "./components/auth/login"
+import Register from "./components/auth/register"
+import AuthLayout from "./components/auth/auth-layout"
+
 import Landing from "./components/landing"
-import Login from "./components/login"
-import Register from "./components/register"
 import Dashboard from "./components/dashboard"
-import DashboardProvider from "./contexts/dashboard-context"
+import DashboardLayout from "./components/dashboard/dashboard-layout"
 
 import { routes } from "./constants/routes"
 
@@ -16,7 +18,11 @@ const router = createBrowserRouter([
   },
   {
     path: routes.auth.base,
-    element: <Auth />,
+    element: (
+      <AuthLayout>
+        <Auth />
+      </AuthLayout>
+    ),
     children: [
       {
         index: true,
@@ -35,9 +41,9 @@ const router = createBrowserRouter([
   {
     path: routes.dashboard,
     element: (
-      <DashboardProvider>
+      <DashboardLayout>
         <Dashboard />
-      </DashboardProvider>
+      </DashboardLayout>
     ),
   },
 ])
