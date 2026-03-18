@@ -1,6 +1,5 @@
 package com.cleyxds.logitrackpro.service;
 
-import com.cleyxds.logitrackpro.domain.Manutencao;
 import com.cleyxds.logitrackpro.domain.StatusManutencao;
 import com.cleyxds.logitrackpro.dto.DashboardMaintenanceItemResponse;
 import com.cleyxds.logitrackpro.dto.DashboardSummaryResponse;
@@ -27,35 +26,14 @@ public class DashboardService {
     LocalDate firstDayOfMonth = today.withDayOfMonth(1);
     LocalDate lastDayOfMonth = today.withDayOfMonth(today.lengthOfMonth());
 
-    List<Manutencao> manutencoes = manutencaoRepository.findAll();
+    BigDecimal currentMonthMaintenanceCost = manutencaoRepository.getCurrentMonthMaintenanceCost(
+        firstDayOfMonth,
+        lastDayOfMonth);
 
-    List<DashboardMaintenanceItemResponse> upcomingMaintenance = manutencoes.stream()
-        .filter(manutencao -> manutencao.getStatus() != StatusManutencao.CONCLUIDA)
-        .filter(manutencao -> !manutencao.getDataInicio().isBefore(today))
-        .sorted((left, right) -> left.getDataInicio().compareTo(right.getDataInicio()))
-        .limit(5)
-        .map(this::toItemResponse)
-        .toList();
-
-    BigDecimal currentMonthMaintenanceCost = manutencoes.stream()
-        .filter(manutencao -> !manutencao.getDataInicio().isBefore(firstDayOfMonth))
-        .filter(manutencao -> !manutencao.getDataInicio().isAfter(lastDayOfMonth))
-        .map(Manutencao::getCustoEstimado)
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
+    List<DashboardMaintenanceItemResponse> upcomingMaintenance = manutencaoRepository.findUpcomingMaintenances(
+        today,
+        StatusManutencao.CONCLUIDA.name());
 
     return new DashboardSummaryResponse(currentMonthMaintenanceCost, upcomingMaintenance);
-  }
-
-  private DashboardMaintenanceItemResponse toItemResponse(Manutencao manutencao) {
-    return new DashboardMaintenanceItemResponse(
-        manutencao.getId(),
-        manutencao.getVeiculo().getId(),
-        manutencao.getVeiculo().getPlaca(),
-        manutencao.getVeiculo().getModelo(),
-        manutencao.getTipoServico(),
-        manutencao.getDataInicio(),
-        manutencao.getDataFinalizacao(),
-        manutencao.getCustoEstimado(),
-        manutencao.getStatus());
   }
 }
