@@ -8,6 +8,8 @@ import AuthLayout from "./components/auth/auth-layout"
 import Landing from "./components/landing"
 import Dashboard from "./components/dashboard"
 import DashboardLayout from "./components/dashboard/dashboard-layout"
+import Viagens from "./components/viagens"
+import ViagemForm from "./components/viagens/viagem-form"
 
 import { routes } from "./constants/routes"
 
@@ -40,11 +42,25 @@ const router = createBrowserRouter([
   },
   {
     path: routes.dashboard,
-    element: (
-      <DashboardLayout>
-        <Dashboard />
-      </DashboardLayout>
-    ),
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "viagens",
+        element: <Viagens />,
+      },
+      {
+        path: "viagens/new",
+        element: <ViagemForm />,
+      },
+      {
+        path: "viagens/:id/edit",
+        element: <ViagemForm />,
+      },
+    ],
   },
 ])
 

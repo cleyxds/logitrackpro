@@ -32,3 +32,12 @@ export const authService = {
     api.post<AuthResponse>(api_routes.auth.register, data),
   logout: () => api.post(api_routes.auth.logout),
 }
+
+export const viagemService = {
+  findAll: () => api.get<Trip[]>(api_routes.viagens),
+  findById: (id: number) => api.get<Trip>(`${api_routes.viagens}/${id}`),
+  create: (data: TripRequest) => api.post<Trip>(api_routes.viagens, data),
+  update: (id: number, data: TripRequest) =>
+    api.put<Trip>(`${api_routes.viagens}/${id}`, data),
+  delete: (id: number) => api.delete(`${api_routes.viagens}/${id}`),
+}

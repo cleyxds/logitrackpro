@@ -40,6 +40,15 @@ type Trip = {
   kmPercorrida: number
 }
 
+type TripRequest = {
+  veiculoId: number
+  dataSaida: string
+  dataChegada: string
+  origem: string
+  destino: string
+  kmPercorrida: number
+}
+
 type DashboardMaintenance = {
   id: number
   veiculoId: number

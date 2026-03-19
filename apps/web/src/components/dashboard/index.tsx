@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useDashboard } from "../../hooks/use-dashboard"
 import { useAuth } from "../../hooks/use-auth"
 import { routes } from "../../constants/routes"
@@ -68,20 +68,38 @@ export default function Dashboard() {
           }}
         >
           <h2>Bem-vindo(a), {user?.nome || "Usuário"}!</h2>
-          <button
-            onClick={handleLogout}
-            style={{
-              padding: "0.625rem 1rem",
-              backgroundColor: "var(--accent, #e74c3c)",
-              color: "white",
-              border: "none",
-              borderRadius: "0.25rem",
-              cursor: "pointer",
-              fontSize: "0.875rem",
-            }}
-          >
-            {logout.isPending ? "Saindo..." : "Sair"}
-          </button>
+          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+            <Link
+              to={routes.viagens.base}
+              style={{
+                padding: "0.625rem 1rem",
+                backgroundColor: "rgba(29, 104, 81, 0.12)",
+                color: "var(--accent)",
+                border: "none",
+                borderRadius: "999px",
+                cursor: "pointer",
+                fontSize: "0.875rem",
+                fontWeight: "700",
+                textDecoration: "none",
+              }}
+            >
+              Viagens
+            </Link>
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: "0.625rem 1rem",
+                backgroundColor: "var(--accent, #e74c3c)",
+                color: "white",
+                border: "none",
+                borderRadius: "0.25rem",
+                cursor: "pointer",
+                fontSize: "0.875rem",
+              }}
+            >
+              {logout.isPending ? "Saindo..." : "Sair"}
+            </button>
+          </div>
         </div>
         <section className={styles.hero}>
           <article className={styles.heroCard}>
