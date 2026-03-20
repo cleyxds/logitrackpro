@@ -4,6 +4,8 @@ import com.cleyxds.logitrackpro.dto.ViagemRequest;
 import com.cleyxds.logitrackpro.dto.ViagemResponse;
 import com.cleyxds.logitrackpro.service.ViagemService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,14 +22,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/viagens")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ViagemController {
-
     private final ViagemService viagemService;
-
-    public ViagemController(ViagemService viagemService) {
-        this.viagemService = viagemService;
-    }
 
     @GetMapping
     public List<ViagemResponse> findAll() {

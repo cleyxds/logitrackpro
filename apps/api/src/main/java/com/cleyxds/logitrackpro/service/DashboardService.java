@@ -4,6 +4,9 @@ import com.cleyxds.logitrackpro.domain.StatusManutencao;
 import com.cleyxds.logitrackpro.dto.DashboardMaintenanceItemResponse;
 import com.cleyxds.logitrackpro.dto.DashboardSummaryResponse;
 import com.cleyxds.logitrackpro.repository.ManutencaoRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,13 +15,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DashboardService {
-
   private final ManutencaoRepository manutencaoRepository;
-
-  public DashboardService(ManutencaoRepository manutencaoRepository) {
-    this.manutencaoRepository = manutencaoRepository;
-  }
 
   @Transactional(readOnly = true)
   public DashboardSummaryResponse getSummary() {

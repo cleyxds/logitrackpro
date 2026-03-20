@@ -2,19 +2,18 @@ package com.cleyxds.logitrackpro.service;
 
 import com.cleyxds.logitrackpro.dto.VeiculoOptionResponse;
 import com.cleyxds.logitrackpro.repository.VeiculoRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VeiculoService {
-
   private final VeiculoRepository veiculoRepository;
-
-  public VeiculoService(VeiculoRepository veiculoRepository) {
-    this.veiculoRepository = veiculoRepository;
-  }
 
   @Transactional(readOnly = true)
   public List<VeiculoOptionResponse> findAll() {
