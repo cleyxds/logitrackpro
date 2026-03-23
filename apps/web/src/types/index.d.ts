@@ -8,6 +8,7 @@ type User = {
 
 type AuthResponse = {
   access_token: string
+  refresh_token: string
   user: User
 }
 

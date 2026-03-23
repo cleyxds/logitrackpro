@@ -42,6 +42,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setToken(access_token)
       setUser(userData)
       localStorage.setItem("auth_token", access_token)
+      localStorage.setItem("refresh_token", response.data.refresh_token)
+
       localStorage.setItem("auth_user", JSON.stringify(userData))
     } catch (err) {
       const message = err instanceof Error ? err.message : "Login failed"
@@ -62,6 +64,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setToken(access_token)
       setUser(userData)
       localStorage.setItem("auth_token", access_token)
+
+      localStorage.setItem("refresh_token", response.data.refresh_token)
+
       localStorage.setItem("auth_user", JSON.stringify(userData))
     } catch (err) {
       const message = err instanceof Error ? err.message : "Registration failed"
@@ -77,6 +82,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setUser(null)
       setToken(null)
       localStorage.removeItem("auth_token")
+      localStorage.removeItem("refresh_token")
       localStorage.removeItem("auth_user")
       await authService.logout()
     },
@@ -84,6 +90,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setUser(null)
       setToken(null)
       localStorage.removeItem("auth_token")
+      localStorage.removeItem("refresh_token")
       localStorage.removeItem("auth_user")
     },
   })
